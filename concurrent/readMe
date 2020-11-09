@@ -1,0 +1,10 @@
+#并发编程
+1、线程、进程、多线程：进程即应用，线程属于进程内的，一个线程执行一个任务，多线程即多任务并发执行；
+
+2、线程创建方式：Thread、Runable、Callable
+
+3、线程生命周期及状态：NEW RUNNABLE BLOCKED WAITING TIMED_WAITING TERMINATED
+
+3、线程执行顺序：
+
+
