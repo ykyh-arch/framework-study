@@ -1,4 +1,4 @@
-package example.multithreading.base;
+package example.multithread.base;
 
 /**
  * @ClassName: ThreadChj
