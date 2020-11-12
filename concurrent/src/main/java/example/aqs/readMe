@@ -1,0 +1,4 @@
+#AQS
+概念：abstractqueuesynchronizer 同步发射器，用来构建Lock
+基本思想：通过内置的FIFO同步队列完成线程争夺资源的管理工作
+#CLH同步队

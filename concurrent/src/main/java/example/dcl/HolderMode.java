@@ -1,5 +1,7 @@
 package example.dcl;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * @ClassName: HolderMode
  * @Description: 内部类获取单例，广泛的一种单例模式

@@ -5,7 +5,10 @@
 概念：compareandset compareandswap 一种无锁的原子算法，乐观锁
 思想：给一个期望值E，与现有值V比较，如果相等（E=V）再修改新值N，不相等则什么都不操作
 作用优点：CAS实现稍复杂，无锁，不存在阻塞，提高了效率，CPU吞吐量，性能好
-原理：
-应用场景：
-#AQS
-概念：
+原理：CAS底层调用了CPU硬件支持，以硬件实现原子性保证
+AtomicInteger（原子类）->incrementAndGet->unsafe.java->unsafe.cpp->汇编cmpxchag，硬件支持、原子性保证
+缺点：ABA问题
+改进：AtomicStampedReference<V>，版本控制
+应用场景：简单的数据计算、只能操作一个共享变量、线程冲突少的场景
+
+
