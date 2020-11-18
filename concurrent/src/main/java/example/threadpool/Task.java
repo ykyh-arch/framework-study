@@ -1,4 +1,4 @@
-package example.multithread;
+package example.threadpool;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
