@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+        <!-- 注册service -->
+    <bean id="service" class="example.ioc.injection.service.IndexService" c:indexDao-ref="dao">
+            <!--setter方法注入-->
+            <!--<property name="indexDao" ref="dao"></property>-->
+          <!--constructor方法注入，等同于c:indexDao-ref="dao"-->
+            <!--<constructor-arg ref="dao"></constructor-arg>-->
+
+    </bean>
+        <!-- 注册dao -->
+    <bean id="dao" class="example.ioc.injection.dao.impl.IndexDaoImpl" p:index="index">
+        <!--注入字符串，等同于p:index="index"-->
+        <!--<property name="index" value="index"/>-->
+    </bean>
+
+</beans>
