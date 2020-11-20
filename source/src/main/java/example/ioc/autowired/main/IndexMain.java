@@ -1,7 +1,9 @@
 package example.ioc.autowired.main;
 
+import example.ioc.autowired.service.IndexAnotherService;
 import example.ioc.autowired.service.IndexService;
 import example.ioc.autowired.conf.ApplicationConfig;
+import example.ioc.autowired.service.IndexThreeService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -22,10 +24,14 @@ public class IndexMain {
         indexService.service();*/
 
         AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(ApplicationConfig.class);
-        IndexService indexService= (IndexService)annotationConfigApplicationContext.getBean("service");
+        //IndexService indexService= (IndexService)annotationConfigApplicationContext.getBean("service");
+        //IndexAnotherService indexService= (IndexAnotherService)annotationConfigApplicationContext.getBean("indexAnotherService");
+        IndexThreeService indexService= (IndexThreeService)annotationConfigApplicationContext.getBean("indexThreeService");
         indexService.service();
 
-        IndexService indexAnathorService= (IndexService)annotationConfigApplicationContext.getBean("service");
+        //IndexService indexAnathorService= (IndexService)annotationConfigApplicationContext.getBean("service");
+        //IndexAnotherService indexAnathorService= (IndexAnotherService)annotationConfigApplicationContext.getBean("indexAnotherService");
+        IndexThreeService indexAnathorService= (IndexThreeService)annotationConfigApplicationContext.getBean("indexThreeService");
         indexService.service();
 
         //比较是否为同一对象

@@ -1,6 +1,7 @@
 package example.ioc.autowired.dao.impl;
 
 import example.ioc.autowired.dao.IndexDao;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,7 +11,8 @@ import org.springframework.stereotype.Repository;
  * @Date: 2020-11-19-10:18
  * @Version: 1.0
  **/
-@Repository
+@Repository("indexDaoImpl")
+@Scope("prototype")//原型模式
 public class IndexDaoImpl implements IndexDao {
 
     public void method() {
