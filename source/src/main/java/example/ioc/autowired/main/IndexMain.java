@@ -1,12 +1,8 @@
 package example.ioc.autowired.main;
 
-import example.ioc.autowired.service.IndexAnotherService;
-import example.ioc.autowired.service.IndexService;
 import example.ioc.autowired.conf.ApplicationConfig;
 import example.ioc.autowired.service.IndexThreeService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * @ClassName: IndexMain
