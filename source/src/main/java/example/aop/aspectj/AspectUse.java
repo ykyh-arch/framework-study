@@ -2,9 +2,7 @@ package example.aop.aspectj;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -65,10 +63,31 @@ public class AspectUse {
 //    @Before("pointcutExecution()")
 //    @Before("pointcutExecution() && !pointcutArgs()")
 //    @Before("pointcutAnnotation()")
-    @Before("pointcutThis()")
+//    @Before("pointcutThis()")
 //    @Before("pointcutTarget()")
-    private void before(JoinPoint joinPoint, ProceedingJoinPoint proceedingJoinPoint) {
+    private void before(JoinPoint joinPoint) {
         System.out.println("before");
     }
 
+//    @After("pointcutExecution()")
+    private void after() {
+        System.out.println("after");
+    }
+
+    /* 环绕通知
+     * ProceedingJoinPoint 正在处理的连接点
+     *
+     *
+     */
+    @Around("pointcutExecution()")
+    private void pointcutAround(ProceedingJoinPoint pjp) {
+        System.out.println("before");
+        try {
+            pjp.proceed();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+        System.out.println("after");
+
+    }
 }
