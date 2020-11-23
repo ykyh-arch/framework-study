@@ -3,6 +3,7 @@ package example.ioc.dependencies.service;
 import example.ioc.dependencies.dao.IndexDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
  * @Version: 1.0
  **/
 @Service("service")
+//@Scope("prototype")
 public class IndexService {
 
     /*
@@ -24,6 +26,9 @@ public class IndexService {
     @Autowired
     @Qualifier("indexDaoImpl")
     private IndexDao indexDao;
+
+    @Autowired
+    private IndexAnotherService indexAnotherService;
 
 
 }
