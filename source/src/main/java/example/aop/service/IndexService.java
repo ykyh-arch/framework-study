@@ -17,9 +17,9 @@ public class IndexService {
     @Autowired
     private IndexDao indexDao;
 
-    public void service(){
-        indexDao.method1("method1");
-        indexDao.method2();
+    public void service(String str){
+        indexDao.method1(str);
+        //indexDao.method2();
     }
 
 }

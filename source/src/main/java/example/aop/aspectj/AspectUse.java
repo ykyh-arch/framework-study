@@ -1,13 +1,17 @@
 package example.aop.aspectj;
 
+import example.aop.dao.IndexDao;
+import example.aop.dao.impl.IndexDaoImpl;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
 //切面
-@Aspect
+@Aspect("perthis(this(example.aop.dao.impl.IndexDaoImpl))")
+@Scope("prototype")
 public class AspectUse {
 
     //连接点表达式
@@ -26,6 +30,15 @@ public class AspectUse {
     *
     * */
 
+    /*
+     * Introductions
+     * defaultImpl 默认实现
+     * value 对应实现的包全路径名
+     *
+     * */
+//    @DeclareParents(value="example.aop.dao.impl.*", defaultImpl= IndexDaoImpl.class)
+//    public static IndexDao indexDao;
+
 
     //切点
 //    @Pointcut("execution(protected * example.aop.service.*.*(..))")
@@ -34,7 +47,8 @@ public class AspectUse {
     }
 
     //切点
-    @Pointcut("within(example.aop.service.*)")
+//    @Pointcut("within(example.aop.service.*)")
+    @Pointcut("within(example.aop.dao.impl.*)")
     private void pointcutWithin() {
     }
 
@@ -79,11 +93,21 @@ public class AspectUse {
      *
      *
      */
-    @Around("pointcutExecution()")
+    @Around("pointcutWithin()")
     private void pointcutAround(ProceedingJoinPoint pjp) {
+        System.out.println("AspectUse hashCode: " + this.hashCode());
+        //获取连接点参数
+        Object[] args = pjp.getArgs();
+        if(args !=null && args.length>0){
+            for (int i = 0; i < args.length; i++) {
+                //处理连接点参数
+                args[i]+=" is invoke";
+            }
+        }
         System.out.println("before");
         try {
-            pjp.proceed();
+            //重新赋值后交给连接点处理
+            pjp.proceed(args);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }

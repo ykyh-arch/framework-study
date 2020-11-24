@@ -25,13 +25,13 @@ public class IndexMain {
 
         AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(ApplicationConfig.class);
         IndexService indexService = (IndexService) annotationConfigApplicationContext.getBean(IndexService.class);
-        indexService.service();
+        indexService.service("method1");
         //报错：No qualifying bean of type 'example.aop.dao.impl.IndexDaoImpl' available
 //        IndexDaoImpl indexDao = (IndexDaoImpl) annotationConfigApplicationContext.getBean(IndexDaoImpl.class);
-        IndexDao indexDao = (IndexDao) annotationConfigApplicationContext.getBean("indexDaoImpl");
+//        IndexDao indexDao = (IndexDao) annotationConfigApplicationContext.getBean("indexDaoImpl");
         //true时才用的是CGLIB代理，proxyTargetClass = true
         //false时才用的是JDK代理，proxyTargetClass = false，底层基于接口，是extends Proxy对象
-        System.out.println(indexDao instanceof IndexDaoImpl);
+//        System.out.println(indexDao instanceof IndexDaoImpl);
 //        System.out.println(indexDao instanceof Proxy);
 
         /*Class<?>[] interfaces =  new Class<?>[]{IndexDao.class};

@@ -1,7 +1,9 @@
 example.aop.aspectj.AspectUse=org.springframework.stereotype.Component
 example.aop.conf.ApplicationConfig=org.springframework.stereotype.Component
+example.aop.dao.impl.ExpandDaoImpl=org.springframework.stereotype.Component
 example.aop.dao.impl.IndexDaoImpl=org.springframework.stereotype.Component
 example.aop.service.IndexService=org.springframework.stereotype.Component
+example.aop.xml.dao.impl.IndexDaoImpl=org.springframework.stereotype.Component
 example.ioc.autowired.conf.ApplicationConfig=org.springframework.stereotype.Component
 example.ioc.autowired.dao.impl.IndexDaoAnotherImpl=org.springframework.stereotype.Component
 example.ioc.autowired.dao.impl.IndexDaoImpl=org.springframework.stereotype.Component
