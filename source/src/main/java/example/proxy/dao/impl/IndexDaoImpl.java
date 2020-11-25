@@ -14,4 +14,9 @@ public class IndexDaoImpl implements IndexDao {
     public void query(){
         System.out.println("query data");
     }
+
+    @Override
+    public String query(String str) {
+        return str;
+    }
 }

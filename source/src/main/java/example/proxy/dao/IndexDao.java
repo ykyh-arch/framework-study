@@ -10,4 +10,6 @@ package example.proxy.dao;
 public interface IndexDao {
 
     void query();
+
+    String query(String str);
 }

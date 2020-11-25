@@ -1,6 +1,6 @@
-package example.proxy.proxy.statics;
+package example.proxy.statics;
 
-import example.proxy.dao.IndexDao;
+import example.proxy.dao.impl.IndexDaoImpl;
 
 /**
  * @ClassName: IndexDaoLogImpl
@@ -9,10 +9,10 @@ import example.proxy.dao.IndexDao;
  * @Date: 2020-11-24-17:25
  * @Version: 1.0
  **/
-public class IndexDaoLog implements IndexDao {
-
+public class IndexDaoLogImpl extends IndexDaoImpl {
+    @Override
     public void query() {
         System.out.println("Log data");
-
+        super.query();
     }
 }

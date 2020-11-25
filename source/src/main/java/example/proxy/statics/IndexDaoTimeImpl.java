@@ -1,4 +1,4 @@
-package example.proxy.proxy.statics;
+package example.proxy.statics;
 
 import example.proxy.dao.impl.IndexDaoImpl;
 
