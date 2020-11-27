@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="zkclient-0.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/distribution-zookeeper/src/java/lib/zkclient-0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
