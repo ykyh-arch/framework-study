@@ -1,7 +1,11 @@
 package example.proxy.main;
 
 import example.proxy.dao.IndexDao;
+import example.proxy.dao.SelfDao;
 import example.proxy.dao.impl.IndexDaoImpl;
+import example.proxy.dao.impl.SelfDaoImpl;
+import example.proxy.dynamic.ProxyUtil;
+import example.proxy.handler.AnotherSelfInvocationHanler;
 import example.proxy.handler.SelfInvocationHandler;
 import example.proxy.statics.IndexDaoLog;
 import example.proxy.statics.IndexDaoLogImpl;
@@ -56,6 +60,14 @@ public class IndexMain {
                 },new SelfInvocationHandler(new IndexDaoImpl()));
         jdkProxy.query();
         //模拟JDK动态代理
+
+        SelfDao modeljdkProxy = (SelfDao) ProxyUtil.newProxyInstance(SelfDao.class,new AnotherSelfInvocationHanler(new SelfDaoImpl()));
+
+        try {
+            modeljdkProxy.query();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 }

@@ -11,5 +11,5 @@ public interface SelfInvocationHandlerInf {
      * @param method 目标方法
      * @return
      */
-    public Object invoke(Method method);
+    public Object invoke(Method method) throws Exception;
 }

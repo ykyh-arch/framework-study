@@ -1,6 +1,7 @@
 package example.proxy.dynamic;
 
 import example.proxy.handler.AnotherSelfInvocationHanler;
+import example.proxy.handler.SelfInvocationHandlerInf;
 
 import javax.tools.JavaCompiler;
 import javax.tools.StandardJavaFileManager;
@@ -152,7 +153,7 @@ public class ProxyUtil {
      * @param
      * @return
      */
-    public static Object newProxyInstance(Class targetInf, AnotherSelfInvocationHanler h){
+    public static Object newProxyInstance(Class targetInf, SelfInvocationHandlerInf h){
         Object proxy=null;
         //获取接口，如：IndexDao
         //获取方法
@@ -165,14 +166,17 @@ public class ProxyUtil {
         //包名
         String packageContent = "package example.proxy.dao;"+line;
         //包路径
-        String importContent = "import "+targetInf.getName()+";"+line;
+        String importContent = "import "+targetInf.getName()+";"+line
+                             + "import example.proxy.handler.SelfInvocationHandlerInf;"+line
+                             + "import java.lang.Exception;"+line
+                             + "import java.lang.reflect.Method;"+line;
         //类第一行
         String clazzFirstLineContent = "public class $Proxy implements "+infName+"{"+line;
         //属性
-        String attributeContent  =tab+"private AnotherSelfInvocationHanler h;"+line;
+        String attributeContent  =tab+"private SelfInvocationHandlerInf h;"+line;
         //有参构造
-        String constructorContent =tab+"public $Proxy ("+infName+" target){" +line
-                +tab+tab+"this.target =target;"
+        String constructorContent =tab+"public $Proxy (SelfInvocationHandlerInf h){" +line
+                +tab+tab+"this.h = h;"
                 +line+tab+"}"+line;
         //方法
         String methodContent = "";
@@ -201,14 +205,9 @@ public class ProxyUtil {
                 paramsContent=paramsContent.substring(0,paramsContent.lastIndexOf(",")-1);
             }
 
-            methodContent+=tab+"public "+returnTypeName+" "+methodName+"("+argsContent+") {"+line
-                    +tab+tab+"Method method = Class.forName(\""+targetInf.getName()+"\").getDeclaredMethods(\""+methodName+"\")"+line
-                    +tab+tab+"h.invoke(method)"+line;
-            if(!returnTypeName.equals("void")){
-                methodContent+=tab+tab+"return target."+methodName+"("+paramsContent+");"+line;
-            }else{
-                methodContent+=tab+tab+"target."+methodName+"("+paramsContent+");"+line;
-            }
+            methodContent+=tab+"public "+returnTypeName+" "+methodName+"("+argsContent+") throws Exception{"+line
+                    +tab+tab+"Method method = Class.forName(\""+targetInf.getName()+"\").getDeclaredMethod(\""+methodName+"\");"+line
+                    +tab+tab+"return ("+returnTypeName+")h.invoke(method);"+line;
             methodContent+=tab+"}"+line;
 
         }
@@ -246,15 +245,15 @@ public class ProxyUtil {
             URLClassLoader urlClassLoader = new URLClassLoader(urls);
             Class clazz = urlClassLoader.loadClass("example.proxy.dao.$Proxy");
 
-            Constructor constructor = clazz.getConstructor(targetInf);
+            Constructor constructor = clazz.getConstructor(SelfInvocationHandlerInf.class);
             //目标对象
-            //proxy = constructor.newInstance(target);
+            proxy = constructor.newInstance(h);
             //clazz.newInstance();
             //Class.forName()
         }catch (Exception e){
             e.printStackTrace();
         }
 
-        return null;
+        return proxy;
     }
 }

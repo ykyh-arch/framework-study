@@ -14,7 +14,7 @@
     <bytecodeTargetLevel>
       <module name="concurrent" target="8" />
       <module name="distribution" target="1.5" />
-      <module name="source" target="1.5" />
+      <module name="source" target="6" />
     </bytecodeTargetLevel>
   </component>
 </project>

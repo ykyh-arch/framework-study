@@ -18,7 +18,9 @@ public class AnotherSelfInvocationHanler implements SelfInvocationHandlerInf{
     }
 
     @Override
-    public Object invoke(Method method) {
+    public Object invoke(Method method) throws Exception{
+
+        System.out.println("used self proxy");
         try {
             return method.invoke(target);
         } catch (Exception e) {
