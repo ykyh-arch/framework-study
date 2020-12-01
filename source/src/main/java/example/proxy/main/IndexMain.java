@@ -10,7 +10,10 @@ import example.proxy.handler.SelfInvocationHandler;
 import example.proxy.statics.IndexDaoLog;
 import example.proxy.statics.IndexDaoLogImpl;
 import example.proxy.statics.IndexDaoTime;
+import sun.misc.ProxyGenerator;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.lang.reflect.Proxy;
 
 /**
@@ -61,10 +64,22 @@ public class IndexMain {
         jdkProxy.query();
         //模拟JDK动态代理
 
-        SelfDao modeljdkProxy = (SelfDao) ProxyUtil.newProxyInstance(SelfDao.class,new AnotherSelfInvocationHanler(new SelfDaoImpl()));
+        SelfDao imitatejdkProxy = (SelfDao) ProxyUtil.newProxyInstance(SelfDao.class,new AnotherSelfInvocationHanler(new SelfDaoImpl()));
 
         try {
-            modeljdkProxy.query();
+            imitatejdkProxy.query();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //JDK代理核心实现
+        byte[] bytes= ProxyGenerator.generateProxyClass("$Proxy1",new Class[]{SelfDao.class});
+        try {
+            //字节流
+            FileOutputStream fos = new FileOutputStream("C:\\Users\\Uetec\\Desktop\\$Proxy1.class");
+            fos.write(bytes);
+            fos.flush();
+            fos.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
