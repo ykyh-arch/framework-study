@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    1、哪些类需要IOC容器来关联
+    2、怎么告诉我这些类(写bean)
+    3、怎么维护依赖关系（setter、constructor）
+    4、怎么体现setter或者constructor
+ -->
+<beans default-autowired="byType">
+    <bean id="dao1" class="example.dao.impl.UserDaoImpl1"></bean>
+    <bean id="dao2" class="example.dao.impl.UserDaoImpl2"></bean>
+    <bean id="service" class="example.service.impl.UserServiceImpl">
+        <!--setter-->
+        <!--<property name="dao" ref ="dao"></property>-->
+        <!--constructor-->
+        <constructor-args name="dao" ref ="dao2"></constructor-args>
+
+    </bean>
+
+</beans>
