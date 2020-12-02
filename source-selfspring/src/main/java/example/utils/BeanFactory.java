@@ -39,7 +39,7 @@ public class BeanFactory {
             if (attribute!=null){
                 flag=true;
             }
-
+            //查找1级节点
             for (Iterator<Element> itFirlst = elementRoot.elementIterator(); itFirlst.hasNext();) {
                 /**
                  * setup1、实例化对象，bean
@@ -50,7 +50,7 @@ public class BeanFactory {
                 String beanName = attributeId.getValue();
                 Attribute attributeClass = elementFirstChild.attribute("class");
                 String clazzName  = attributeClass.getValue();
-
+                //clazz 一级节点bean class
                 Class clazz = Class.forName(clazzName);
                 /**
                  * 维护依赖关系
@@ -65,8 +65,9 @@ public class BeanFactory {
 
                     //<property name="dao" ref="dao"></property>
                     Element elementSecondChild = itSecond.next();
+                    //setter注入
                     if(elementSecondChild.getName().equals("property")){
-                        //是setter，沒有特殊的构造方法
+                        //是setter，沒有特殊的构造方法，反射生成对象
                         object= clazz.newInstance();
                         String refVlaue = elementSecondChild.attribute("ref").getValue();
                         Object injectObject= map.get(refVlaue);
@@ -85,11 +86,11 @@ public class BeanFactory {
                         Constructor constructor = clazz.getConstructor(injectObjectClazz.getInterfaces()[0]);
                         object = constructor.newInstance(injectObject);
                     }
-
                 }
-                //处理自动注入，自动注入与手动注入都存在，以手动注入为主
+                //处理自动注入，自动注入与手动注入都存在，以手动注入为准
                 if(object==null) {
                     if (flag) {
+                        //类型注入
                         if (attribute.getValue().equals("byType")) {
                             //判斷是否有依賴
                             Field fields[] = clazz.getDeclaredFields();
