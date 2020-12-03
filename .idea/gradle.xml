@@ -6,7 +6,7 @@
       <GradleProjectSettings>
         <option name="delegatedBuild" value="true" />
         <option name="testRunner" value="GRADLE" />
-        <option name="distributionType" value="LOCAL" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/source-springframework" />
         <option name="gradleHome" value="$PROJECT_DIR$/../../../gradle-5.0" />
         <option name="gradleJvm" value="#JAVA_HOME" />
@@ -29,6 +29,7 @@
             <option value="$PROJECT_DIR$/source-springframework/spring-jcl" />
             <option value="$PROJECT_DIR$/source-springframework/spring-jdbc" />
             <option value="$PROJECT_DIR$/source-springframework/spring-jms" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-learn" />
             <option value="$PROJECT_DIR$/source-springframework/spring-messaging" />
             <option value="$PROJECT_DIR$/source-springframework/spring-orm" />
             <option value="$PROJECT_DIR$/source-springframework/spring-oxm" />
@@ -39,17 +40,6 @@
             <option value="$PROJECT_DIR$/source-springframework/spring-webflux" />
             <option value="$PROJECT_DIR$/source-springframework/spring-webmvc" />
             <option value="$PROJECT_DIR$/source-springframework/spring-websocket" />
-          </set>
-        </option>
-      </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/source-springframework/spring-learn" />
-        <option name="gradleHome" value="$PROJECT_DIR$/../../../gradle-5.0" />
-        <option name="gradleJvm" value="#JAVA_HOME" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/source-springframework/spring-learn" />
           </set>
         </option>
       </GradleProjectSettings>

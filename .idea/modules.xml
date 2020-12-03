@@ -8,6 +8,11 @@
       <module fileurl="file://$PROJECT_DIR$/framework-study.iml" filepath="$PROJECT_DIR$/framework-study.iml" />
       <module fileurl="file://$PROJECT_DIR$/source/source.iml" filepath="$PROJECT_DIR$/source/source.iml" />
       <module fileurl="file://$PROJECT_DIR$/source-selfspring/source-selfspring.iml" filepath="$PROJECT_DIR$/source-selfspring/source-selfspring.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/spring-aspects/spring.spring-aspects.iml" filepath="$PROJECT_DIR$/.idea/modules/spring-aspects/spring.spring-aspects.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/spring-aspects/spring.spring-aspects.jmh.iml" filepath="$PROJECT_DIR$/.idea/modules/spring-aspects/spring.spring-aspects.jmh.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/spring-aspects/spring.spring-aspects.main.iml" filepath="$PROJECT_DIR$/.idea/modules/spring-aspects/spring.spring-aspects.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/spring-aspects/spring.spring-aspects.test.iml" filepath="$PROJECT_DIR$/.idea/modules/spring-aspects/spring.spring-aspects.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/spring-aspects/spring.spring-aspects.testFixtures.iml" filepath="$PROJECT_DIR$/.idea/modules/spring-aspects/spring.spring-aspects.testFixtures.iml" />
     </modules>
   </component>
 </project>

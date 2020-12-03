@@ -6,6 +6,11 @@
       <module name="distribution" target="1.5" />
       <module name="source" target="6" />
       <module name="source-selfspring" target="6" />
+      <module name="spring.spring-aspects" target="1.8" />
+      <module name="spring.spring-aspects.jmh" target="1.8" />
+      <module name="spring.spring-aspects.main" target="1.8" />
+      <module name="spring.spring-aspects.test" target="1.8" />
+      <module name="spring.spring-aspects.testFixtures" target="1.8" />
       <module name="zookeer" target="1.5" />
     </bytecodeTargetLevel>
   </component>
