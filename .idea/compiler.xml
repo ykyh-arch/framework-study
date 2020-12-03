@@ -11,7 +11,6 @@
       <module name="spring.spring-aspects.main" target="1.8" />
       <module name="spring.spring-aspects.test" target="1.8" />
       <module name="spring.spring-aspects.testFixtures" target="1.8" />
-      <module name="zookeer" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
