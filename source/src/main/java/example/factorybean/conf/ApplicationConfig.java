@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ImportResource;
  * @Version: 1.0
  **/
 @Configuration
-@ComponentScan(basePackages="example.factorybean")
+//@ComponentScan(basePackages="example.factorybean")
 @ImportResource("classpath:applicationContext-factorybean.xml")
 public class ApplicationConfig {
 

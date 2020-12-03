@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="delegatedBuild" value="true" />
+        <option name="testRunner" value="GRADLE" />
+        <option name="distributionType" value="LOCAL" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/source-springframework" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/source-springframework" />
+            <option value="$PROJECT_DIR$/source-springframework/buildSrc" />
+            <option value="$PROJECT_DIR$/source-springframework/framework-bom" />
+            <option value="$PROJECT_DIR$/source-springframework/integration-tests" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-aop" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-aspects" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-beans" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-context" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-context-indexer" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-context-support" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-core" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-core/kotlin-coroutines" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-expression" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-instrument" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-jcl" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-jdbc" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-jms" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-messaging" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-orm" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-oxm" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-r2dbc" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-test" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-tx" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-web" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-webflux" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-webmvc" />
+            <option value="$PROJECT_DIR$/source-springframework/spring-websocket" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/source-springframework/spring-learn" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../gradle-5.0" />
+        <option name="gradleJvm" value="#JAVA_HOME" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/source-springframework/spring-learn" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
