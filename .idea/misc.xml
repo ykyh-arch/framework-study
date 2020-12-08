@@ -11,6 +11,7 @@
         <option value="$PROJECT_DIR$/source/pom.xml" />
         <option value="$PROJECT_DIR$/distribution/pom.xml" />
         <option value="$PROJECT_DIR$/source-selfspring/pom.xml" />
+        <option value="$PROJECT_DIR$/distribution-rabbitmq/pom.xml" />
       </list>
     </option>
   </component>
