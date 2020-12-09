@@ -1,9 +1,10 @@
 package example.config;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
+import com.alibaba.fastjson.JSON;
+import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.support.CorrelationData;
+import org.springframework.amqp.support.converter.MessageConversionException;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @ClassName: ApplicationConfig
@@ -37,8 +41,8 @@ public class ApplicationConfig {
         connectionFactory.setUsername("distribution");
         connectionFactory.setPassword("distribution");
         connectionFactory.setVirtualHost("/distribution");
-        //是否开启消息确认机制
-        //connectionFactory.setPublisherConfirms(true);
+        //是否开启消息确认机制，发送方确认（生产者是否将消息成功发送到交换机）与失败回调（交换机是否将消息成功路由到队列）
+        connectionFactory.setPublisherConfirms(true);
         return connectionFactory;
     }
 
@@ -47,12 +51,57 @@ public class ApplicationConfig {
 
         RabbitTemplate rabbitTemplate =new RabbitTemplate();
         rabbitTemplate.setConnectionFactory(connectionFactory);
+        //发送方确认回调
+        rabbitTemplate.setConfirmCallback(new RabbitTemplate.ConfirmCallback() {
+            //附加参数、确认、失败原因
+            @Override
+            public void confirm(CorrelationData correlationData, boolean ack, String cause) {
+                System.out.println(ack);
+                System.out.println(cause);
+                System.out.println(correlationData);
+            }
+        });
+        //开启失败回调
+        rabbitTemplate.setMandatory(true);
+        //失败回调，交换机无法成功路由到队列会调用，注意：如果交换机绑定了备用交换机（一般都是fanout型），则不会
+        //调用回调，除非备用交换机出故障了
+        rabbitTemplate.setReturnCallback(new RabbitTemplate.ReturnCallback() {
+            @Override
+            public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
+                //message ：消息内容 + 消息配置
+                System.out.println(message);
+                System.out.println(replyCode);
+                System.out.println(replyText);
+                System.out.println(exchange);
+                System.out.println(routingKey);
+            }
+        });
+        //自定义消息转化器
+        rabbitTemplate.setMessageConverter(new MessageConverter() {
+            //发送消息
+            @Override
+            public Message toMessage(Object object, MessageProperties messageProperties) throws MessageConversionException {
+                messageProperties.setContentType("text/plain");
+                messageProperties.setContentEncoding("UTF-8");
+                Message msg = new Message(JSON.toJSONBytes(object),messageProperties);
+                System.out.println("调用了消息转化器");
+                return msg;
+            }
+            //接收消息
+            @Override
+            public Object fromMessage(Message message) throws MessageConversionException {
+                return null;
+            }
+        });
         return rabbitTemplate;
     }
 
 //    @Bean
-//    public DirectExchange defaultExchange() {
-//        return new DirectExchange("exchange1");
+//    public DirectExchange directExchange() {
+//        Map<String,Object> map = new HashMap<>();
+//        //备用交换机
+//        map.put("alternate-exchange","exchange2_backup");
+//        return new DirectExchange("exchange2",true,false,map);
 //    }
 
 //    @Bean
