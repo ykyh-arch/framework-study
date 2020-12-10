@@ -17,10 +17,18 @@ public class Producer {
         try {
             Connection connection = ConnectionUtil.getConnection();
             Channel channel = connection.createChannel();
-            //申明队列，参数：队列名称、持久化、排他性、自动删除、参数
+           /* //申明队列，参数：队列名称、持久化、排他性、自动删除、参数
             channel.queueDeclare(ConnectionUtil.QUEUE_NAME,true,false,false,null);
             //交换机、路由键、消息属性、消息
-            channel.basicPublish("",ConnectionUtil.QUEUE_NAME,null,"hello".getBytes());
+            channel.basicPublish("",ConnectionUtil.QUEUE_NAME,null,"hello".getBytes());*/
+
+            //测试
+//            channel.queueDeclare("queue2",true,false,false,null);
+//            channel.basicPublish("","queue2",null,"hello".getBytes());
+            for (int i = 0; i < 10000; i++) {
+                channel.basicPublish("","queue2",null,("hello "+(i+1)).getBytes());
+            }
+
             channel.close();
             connection.close();
         } catch (Exception e) {

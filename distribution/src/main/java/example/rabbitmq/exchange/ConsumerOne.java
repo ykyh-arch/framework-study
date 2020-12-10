@@ -14,6 +14,8 @@ import java.io.IOException;
  **/
 public class ConsumerOne {
 
+    static int i = 0;
+
     public static void main(String[] args) {
 
         try {
@@ -27,10 +29,17 @@ public class ConsumerOne {
                 public void handleDelivery(String consumerTag,
                                            Envelope envelope, AMQP.BasicProperties properties,
                                            byte[] body) throws IOException {
-                    System.out.println(new String(body, "UTF-8"));
+                    i++;
+                    if(i%2500==0 || i==10000){
+                        //批量确认
+                        channel.basicAck(envelope.getDeliveryTag(),true);
+                        System.out.println(new String(body, "UTF-8"));
+                    }
                 }
             };
-            channel.basicConsume("queue1", true,deliverCallback);
+//            channel.basicConsume("queue1", true,deliverCallback);
+            channel.basicQos(2500);
+            channel.basicConsume("queue2", false,deliverCallback);
         } catch (Exception e) {
             e.printStackTrace();
         }

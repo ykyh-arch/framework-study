@@ -27,10 +27,21 @@ public class ConsumerTwo {
                 public void handleDelivery(String consumerTag,
                                            Envelope envelope, AMQP.BasicProperties properties,
                                            byte[] body) throws IOException {
-                    System.out.println(new String(body, "UTF-8"));
+                    try {
+                        //模拟消费者性能慢
+                        Thread.sleep(500);
+                        channel.basicAck(envelope.getDeliveryTag(),false);
+                        System.out.println(new String(body, "UTF-8"));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             };
-            channel.basicConsume("queue2", true,deliverCallback);
+            //消息预取，默认Mq系统将队列消息按轮询机制一次性全发送给客户端
+            //通过设置消息预取值，可以控制Mq一次发送消息的数量，该参数需要配合手动确认方式，
+            //这样使得性能好的客户端处理完消息可以帮助其他客户端处理消息
+            channel.basicQos(1);
+            channel.basicConsume("queue2", false,deliverCallback);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -104,16 +104,41 @@ public class ApplicationConfig {
 //        return new DirectExchange("exchange2",true,false,map);
 //    }
 
-//    @Bean
-//    public Queue queue() {
-//        //名字是否持久化
-//        return new Queue("queue1", true);
-//    }
+    @Bean
+    public TopicExchange topicExchange() {
+        return new TopicExchange("exchange2",true,false,null);
+    }
 
-//    @Bean
-//    public Binding binding() {
-//        //绑定一个队列  to: 绑定到哪个交换机上面  with：绑定的路由建（routingKey）
-//        return BindingBuilder.bind(queue()).to(defaultExchange()).with("debug.user.b");
-//    }
+    @Bean
+    public DirectExchange deadExchange() {
+        return new DirectExchange("deadexchange",true,false,null);
+    }
+
+    @Bean
+    public Queue queue4() {
+        Map map =new HashMap();
+        //绑定死信交换机，死信交换机重定向路由键
+        map.put("x-dead-letter-exchange","deadexchange");
+        map.put( "x-dead-letter-routing-key","queue5.key");
+        //名字是否持久化
+        return new Queue("queue4", true,false,false,map);
+    }
+
+    @Bean
+    public Queue queue5() {
+        return new Queue("queue5", true,false,false,null);
+    }
+
+    @Bean
+    public Binding binding4() {
+        //绑定一个队列  to: 绑定到哪个交换机上面  with：绑定的路由建（routingKey）
+        return BindingBuilder.bind(queue4()).to(topicExchange()).with("queue4.*");
+    }
+
+    @Bean
+    public Binding binding5() {
+        //绑定一个队列  to: 绑定到哪个交换机上面  with：绑定的路由建（routingKey）
+        return BindingBuilder.bind(queue5()).to(deadExchange()).with("queue5.key");
+    }
 
 }

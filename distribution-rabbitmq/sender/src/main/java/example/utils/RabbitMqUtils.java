@@ -36,7 +36,9 @@ public class RabbitMqUtils {
         //手动对象序列号
        //rabbitTemplate.convertAndSend("exchange1", "debug.user.b", JSON.toJSONString(data));
         //自定义对象转化器
-        rabbitTemplate.convertAndSend("exchange1", "debug.user.b", data);
+//        rabbitTemplate.convertAndSend("exchange1", "debug.user.b", data);
+        //死信交换机测试
+        rabbitTemplate.convertAndSend("exchange2", "queue4.data", data);
 
     }
 
