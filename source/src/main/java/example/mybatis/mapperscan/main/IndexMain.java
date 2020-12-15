@@ -1,7 +1,6 @@
 package example.mybatis.mapperscan.main;
 
 import example.mybatis.mapperscan.conf.ApplicationConfig;
-import example.mybatis.mapperscan.dao.IndexDao;
 import example.mybatis.mapperscan.service.IndexService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
