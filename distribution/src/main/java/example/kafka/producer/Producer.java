@@ -33,8 +33,8 @@ public class Producer {
         properties.setProperty("partitioner.class", SelfPartitioner.class.getName());
         KafkaProducer<String,String> kafkaProducer = new KafkaProducer<String, String>(properties);
         ProducerRecord<String, String> stringStringProducerRecord =
-                new ProducerRecord<String, String>("kafka-topic1",1,"key","hello world");
-//        new ProducerRecord<String, String>("kafka-topic1",null,"hello world");
+//                new ProducerRecord<String, String>("kafka-topic1",1,"key","hello world");
+        new ProducerRecord<String, String>("kafka-topic1",null,"hello world");
         //同步返回结果
         Future<RecordMetadata> send = kafkaProducer.send(stringStringProducerRecord);
         RecordMetadata recordMetadata = send.get();

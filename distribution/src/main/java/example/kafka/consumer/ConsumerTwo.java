@@ -1,16 +1,10 @@
 package example.kafka.consumer;
 
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.clients.consumer.OffsetAndMetadata;
+import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * @ClassName: Consumer
@@ -20,7 +14,7 @@ import java.util.Properties;
  * @Date: 2020-12-17-15:28
  * @Version: 1.0
  **/
-public class Consumer {
+public class ConsumerTwo {
 
     public static void main(String[] args) {
 
@@ -33,15 +27,23 @@ public class Consumer {
         properties.setProperty("group.id","1");
         //提交方式：手动提交
         properties.setProperty("enable.auto.commit","false");
-        KafkaConsumer<String,String> consumer = new KafkaConsumer<String, String>(properties);
+        final KafkaConsumer<String,String> consumer = new KafkaConsumer<String, String>(properties);
         //订阅主题
-        consumer.subscribe(Collections.singletonList("kafka-topic1"));
+        consumer.subscribe(Collections.singletonList("kafka-topic1"),new ConsumerRebalanceListener() {
+            //分区再均衡配置
+            public void onPartitionsRevoked(Collection<TopicPartition> partitions) {
+                System.out.println("分区再均衡之前");
+                //同步提交下，因为最后一次
+                consumer.commitSync();
+            }
 
-        Map<TopicPartition, OffsetAndMetadata> offset =
-                new HashMap<TopicPartition, OffsetAndMetadata>();
-        // OffsetAndMetadata:第一个参数为你要提交的偏移量，第二个参数可以选择性的传入业务ID可以拿来确定。
-        // 这次提交这里我直接提交偏移量为0，那么会导致下个消费者或者说分区再均衡之后再来读取这个分区的数据会从第一条开始读取。
-        offset.put(new TopicPartition("kafka-topic1", 1), new OffsetAndMetadata(0, "ID"));
+            public void onPartitionsAssigned(Collection<TopicPartition> partitions) {
+                System.out.println("分区再均衡之后");
+                for (TopicPartition partition : partitions) {
+                    System.out.println("新分区："+ partition.partition());
+                }
+            }
+        });
 
         try{
             //主动拉取消息
@@ -55,11 +57,7 @@ public class Consumer {
                             +"，value:"+stringStringConsumerRecord.value());
 
                     //正常情况异步提交
-                    //consumer.commitAsync();
-                    //指定偏移量提交参数为map集合，key为指定的主题下的分区，value 为你要提交的偏移量
-                    consumer.commitSync(offset);
-                    //优雅的关闭 退出消费者群组
-                    consumer.close();
+                    consumer.commitAsync();
                 }
             }
         }catch (Exception e){
