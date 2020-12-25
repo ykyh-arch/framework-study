@@ -1,5 +1,6 @@
 package example.redis.jedis;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import redis.clients.jedis.Jedis;
@@ -151,6 +152,13 @@ public class JedisUse {
         }
         if(!"0".equals(cursor)){
             this.methodScan(cursor);
+        }
+    }
+
+    @After
+    public void destroy(){
+        if(jedis!=null){
+            jedis.close();
         }
     }
 }
