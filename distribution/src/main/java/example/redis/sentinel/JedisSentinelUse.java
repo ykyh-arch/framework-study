@@ -11,7 +11,7 @@ import java.util.UUID;
 
 /**
  * @ClassName: JedisSentinelUse
- * @Description: JedisSentinel使用测试。
+ * @Description: JedisSentinel使用测试。哨兵
  * @Author: Uetec
  * @Date: 2020-12-25-11:00
  * @Version: 1.0

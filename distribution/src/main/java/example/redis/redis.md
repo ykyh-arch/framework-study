@@ -615,66 +615,85 @@ cluster-enabled yes（启动集群模式）
 
 cluster-config-file nodes-8001.conf（这里800x最好和port对应上）
 
+批量修改端口号信息
+
+sed 's/7000/7001/g' redis.conf > ../redis_7001/redis.conf #将端口7000改为7001
+
 ##### 2.meet
 
-cluster meet ip port
+cluster meet ip port #如：cluster meet 192.168.1.49 7005
+
+查看集群信息
+
+cluster nodes
+
 
 ##### 3.指派槽
 
-查看crc16 算法算出key的槽位命令  cluster keyslot key
+查看crc16算法算出key的槽位命令  cluster keyslot key #如：cluster keyslot k1
+
+redis cluster 中总共有16384个槽位，这是设计规定的固定不变的，集群是对这些槽位进行分配。
 
 16384/3  0-5461  5462-10922  10923-16383
 16384/4 4096
 
-cluster addslots slot（槽位下标）
+cluster addslots slot（槽位下标） #如：cluster addslots 0
+
+可以使用脚本文件批量添加槽位：addslots.sh
+
+start=$1
+end=$2
+host=$3
+port=$4
+for slot in `seq ${start} ${end}`
+do
+	echo "slot:${slot}"
+	/usr/local/bin/redis-cli -h ${host} -p ${port} cluster addslots ${slot}
+done
+
+执行脚本
+./addslots.sh 0 5461 192.168.1.49 7000
 
 ##### 4.分配主从
 
-cluster replicate node-id
+cluster replicate node-id #如：/usr/local/bin/redis-cli -h 192.168.1.49 -p 7003 cluster replicate 250de37cd889e9a19aa1eabe038c27adeae9ffa6
 
-#### 2.使用redis提供的rb脚本
+#### 2.使用redis提供的rb脚本或cli脚本（将原生的meet、分配槽、分配主从操作都处理了）
 
-redis cluster集群需要至少要三个master节点，我们这里搭建三个master节点，并且给每个
-master再搭建一个slave节点，总共6个redis节点，由于节点数较多，这里采用在一台机器
-上创建6个redis实例，并将这6个redis实例配置成集群模式，所以这里搭建的是伪集群模
-式，当然真正的分布式集群的配置方法几乎一样，搭建伪集群的步骤如下：
+redis cluster集群需要至少要三个master节点，我们这里搭建三个master节点，并且给每个master再搭建一个slave节点，总共6个redis节点，由于节点数较多，这里采用在一台机器
+上创建6个redis实例，并将这6个redis实例配置成集群模式，所以这里搭建的是伪集群模式，当然真正的分布式集群的配置方法几乎一样，搭建伪集群的步骤如下：
 第一步：在/usr/local下创建文件夹redis-cluster，然后在其下面分别创建6个文件夾如下
 （1）mkdir -p /usr/local/redis-cluster
-（2）mkdir 8001、 mkdir 8002、 mkdir 8003、 mkdir 8004、 mkdir 8005、 mkdir
-8006
-第一步：把之前的redis.conf配置文件copy到8001下，修改如下内容：
+（2）mkdir 8001、 mkdir 8002、 mkdir 8003、 mkdir 8004、 mkdir 8005、 mkdir 8006
+这一步：把之前的redis.conf配置文件copy到8001下，修改如下内容：
 （1）daemonize yes
 （2）port 8001（分别对每个机器的端口号进行设置）
 （3）bind 127.0.0.1（如果只在本机玩则可以指定为127.0.0.1  如果需要外网访问则需要指定本机真实ip）
-定可能会出现循环查找集群节点机器的情况）
-（4）dir /usr/local/redis-cluster/8001/（指定数据文件存放位置，必须要指定不同的目
-录位置，不然会丢失数据）
+（4）dir /usr/local/redis-cluster/8001/（指定数据文件存放位置，必须要指定不同的目录位置，不然会丢失数据）
 （5）cluster-enabled yes（启动集群模式）
 （6）cluster-config-file nodes-8001.conf（这里800x最好和port对应上）
 （7）cluster-node-timeout 5000
 （8）appendonly yes
-第三步：把修改后的配置文件，分别 copy到各个文夹下，注意每个文件要修改第2、4、6
-项里的端口号，可以用批量替换：
-:%s/源字符串/目的字符串/g
-第四步：由于 redis集群需要使用 ruby命令，所以我们需要安装 ruby（redis5.0之后省略）
+第三步：把修改后的配置文件，分别 copy到各个文夹下，注意每个文件要修改第2、4、6项里的端口号，可以用批量替换：:%s/源字符串/目的字符串/g
+第四步：由于redis集群需要使用ruby命令，所以我们需要安装 ruby（redis5.0之后省略）
 （1）yum install ruby
 （2）yum install rubygems
-（3）gem install redis --version 3.0.0（安装redis和 ruby的接囗）
+（3）gem install redis --version 3.0.0（安装redis和ruby的接囗）
 第五步：分别启动6个redis实例，然后检查是否启动成功
 （1）/usr/local/redis/bin/redis-server /usr/local/redis-cluster/800*/redis.conf
-（2）ps -ef | grep redis 查看是否启动成功 
-
+（2）ps -ef | grep redis 查看是否启动成功
 第六步：在redis3的安装目录下执行 redis-trib.rb命令创建整个redis集群
 （1）cd /usr/local/redis3/src
-（2）./redis-trib.rb create --replicas 1 127.0.0.1:9000 127.0.0.1:9001
-127.0.0.1:9002 127.0.0.1:9003 127.0.0.1:9004  127.0.0.1:9005
+（2）./redis-trib.rb create --replicas 1 127.0.0.1:9000 127.0.0.1:9001 127.0.0.1:9002 127.0.0.1:9003 127.0.0.1:9004  127.0.0.1:9005 # 参数 1 指的是为每个主机配一个从机
+或：
+redis5.0使用/usr/local/bin/redis-cli --cluster create 192.168.0.104:7000 192.168.0.104:7001 192.168.0.104:7002 192.168.0.104:7003 192.168.0.104 :7004 192.168.0.104:7005 --cluster-replicas 1 # 参数 1 指的是为每个主机配一个从机
 
-redis5.0使用/usr/local/bin/redis-cli --cluster create 192.168.0.104:7000 192.168.0.104:7001 192.168.0.104:7002 192.168.0.104:7003 192.168.0.104
-:7004 192.168.0.104:7005 --cluster-replicas 1
+查看帮助
+/usr/local/bin/redis-cli --cluster help
+/usr/local/bin/redis-trib.rb help
 
 第七步：验证集群：
-（1）连接任意一个客户端即可：./redis-cli -c -h -p (-c表示集群模式，指定ip地址和端口
-号）如：/usr/local/redis/bin/redis-cli -c -h 127.0.0.1 -p 800*
+（1）连接任意一个客户端即可：./redis-cli -c -h -p (-c表示集群模式，指定ip地址和端口号）如：/usr/local/redis/bin/redis-cli -c -h 127.0.0.1 -p 800*
 （2）进行验证： cluster info（查看集群信息）、cluster nodes（查看节点列表）
 （3）进行数据操作验证
 （4）关闭集群则需要逐个进行关闭，使用命令：
@@ -688,13 +707,14 @@ redis5.0使用/usr/local/bin/redis-cli --cluster create 192.168.0.104:7000 192.1
 
 ##### 2.加入集群
 
-使用redis-cli  语法：add-node 新节点ip  端口  已存在节点ip 端口
+使用redis-cli  语法：add-node 新节点ip  端口  已存在节点ip 端口 #如：/usr/local/bin/redis-cli --cluster add-node 192.168.1.49:7006 192.168.1.49:7000
 
 使用原生命令 语法：cluster meet ip port
 
 指定主从
 
-使用redis-cli  语法（加入时指定）：add-node 新节点ip  端口  已存在节点ip 端口  --cluster-slave --cluster-master-id masterID
+使用redis-cli  语法（加入时指定）：add-node 新节点ip  端口  已存在节点ip 端口  --cluster-slave --cluster-master-id masterID #如：/usr/local/bin/redis-cli --cluster add-node 192.168.1.49:7007 192.168.1.49:7000 --cluster-slave --cluster-master-id c2a8cc52bc5a4ffa50bde8c2089bc52268367eb7
+
 
 使用原生命令  语法：cluster replicate node-id
 
@@ -752,7 +772,7 @@ redis5.0使用/usr/local/bin/redis-cli --cluster create 192.168.0.104:7000 192.1
 
   超过cluster-node-timeout * cluster-replica-validity-factor 时间取消资格
 
-  2.选择偏移量最大的
+  2.选择偏移量最大的（数据完整性最高的）
 
   替换主节点
 
@@ -761,7 +781,6 @@ redis5.0使用/usr/local/bin/redis-cli --cluster create 192.168.0.104:7000 192.1
 2.撤销以前主节点的槽位，给新的主节点
 
 3.向集群广播消息，表明已经替换了故障节点
-
 
 
 # 总结
@@ -784,4 +803,168 @@ redis5.0使用/usr/local/bin/redis-cli --cluster create 192.168.0.104:7000 192.1
 
 ### 4.集群
 
-通过集群，Redis解决了写操作无法负载均衡，以及存储能力受到单机限制的问题，实现了较为完善的高可用方案
+通过集群，Redis解决了写操作无法负载均衡，以及存储能力受到单机限制的问题，实现了较为完善的高可用方案。
+
+# redis内容扩展
+
+## 1.Pipeline
+
+注意：使用Pipeline的操作是非原子操作
+
+2.GEO
+--------------------- 
+
+GEOADD locations 116.419217 39.921133 beijin
+
+GEOPOS locations beijin
+
+GEODIST locations tianjin beijin km 	#计算距离
+
+GEORADIUSBYMEMBER locations beijin 150 km  #通过距离计算城市
+
+注意：没有删除命令  它的本质是zset  （type locations） 
+
+所以可以使用zrem key member  #删除元素
+
+zrange key  0   -1  #表示所有，返回指定集合中所有value
+
+## 3.hyperLogLog
+
+Redis 在 2.8.9 版本添加了 HyperLogLog 结构。
+
+Redis HyperLogLog 是用来做基数统计的算法，HyperLogLog 的优点是，在输入元素的数量或者体积非常非常大时，计算基数所需的空间总是固定的、并且是很小的
+
+在Redis里面，每个 HyperLogLog 键只需要花费 12 KB 内存，就可以计算接近 2^64 个不同元素的基数。这和计算基数时，元素越多耗费内存就越多的集合形成鲜明对比。
+
+PFADD 2017_03_06:taibai 'yes' 'yes' 'yes' 'yes' 'no'
+
+PFCOUNT 2017_03_06:taibai    #统计有多少不同的值
+
+1.PFADD 2017_09_08:taibai uuid9 uuid10 uu11
+
+2.PFMERGE 2016_03_06:taibai 2017_09_08:taibai   #合并
+
+注意：本质还是字符串 ，有容错率，官方数据是0.81% 
+
+## 4.bitmaps
+
+setbit taibai 500000 0
+
+getbit taibai 500000 
+
+bitcount taibai
+
+Bitmap本质是string，是一串连续的2进制数字（0或1），每一位所在的位置为偏移(offset)。
+string（Bitmap）最大长度是512MB，所以它们可以表示2 ^ 32=4294967296个不同的位。
+
+# 缓存几大问题
+
+## 1.缓存粒度控制
+
+通俗来讲，缓存粒度问题就是我们在使用缓存时，是将所有数据缓存还是缓存部分数据？
+
+| 数据类型 | 通用性  | 空间占用（内存空间+网络码率） | 代码维护 |
+| :--: | :--: | :-------------: | :--: |
+| 全部数据 |  高   |        大        |  简单  |
+| 部分数据 |  低   |        小        | 较为复杂 |
+
+缓存粒度问题是一个容易被忽视的问题，如果使用不当，可能会造成很多无用空间的浪费，可能会造成网络带宽的浪费，可能会造成代码通用性较差等情况，必须学会综合数据通用性、空间占用比、代码维护性 三点评估取舍因素权衡使用。
+
+## 2.缓存穿透问题
+
+缓存穿透是指查询一个一定不存在的数据，由于缓存不命中，并且出于容错考虑，如果从存储层查不到数据则不写入缓存，这将导致这个不存在的数据每次请求都要到存储层去查询，失去了缓存的意义。
+
+### 可能造成原因：
+
+1.业务代码自身问题
+2.恶意攻击、爬虫等等
+
+### 危害
+
+ 对底层数据源DB压力过大，有些底层数据源不具备高并发性。  例如mysql一般来说单台能够扛1000-QPS就已经很不错了。
+
+### 解决方案
+
+1.缓存空对象
+```java
+public class NullValueResultDO implements Serializable{
+     private static final long serialVersionUID = -6550539547145486005L;
+}
+ 
+public class UserManager {
+     UserDAO userDAO;
+     LocalCache localCache;
+ 
+     public UserDO getUser(String userNick) {
+          Object object = localCache.get(userNick);
+          if(object != null) {
+               if(object instanceof NullValueResultDO) {
+                    return null;
+               }
+               return (UserDO)object;
+          } else {
+               User user = userDAO.getUser(userNick);
+               if(user != null) {
+                    localCache.put(userNick,user);
+               } else {
+                    localCache.put(userNick, new NullValueResultDO());
+               }
+               return user;
+          }
+     }          
+}
+```
+
+2.布隆过滤器
+
+原理：利用了bitmaps数据结构，数据通过一系列的hash运算然后得到的二进制向量的位置，有值位置存1，其他位置存0，布隆过滤器有容错率
+影响的主要二个因素是hash算法和二进制向量的长度，容错率低就要求多进行几次hash运算，增加二进制向量的长度。
+
+结果：可能存在或绝对不存在
+
+guava工具类提供了布隆过滤器
+
+利用Redis来实现布隆过滤器
+
+## 3.缓存击穿.热点key重建缓存问题
+
+缓存击穿是指缓存中没有但数据库中有的数据（一般是缓存时间到期），这时由于并发用户特别多，同时读缓存没读到数据，又同时去数据库去取数据，引起数据库压力瞬间增大，造成过大压力
+
+我们知道，使用缓存，如果获取不到，才会去数据库里获取。但是如果是热点 key，访问量非常的大，数据库在重建缓存的时候，会出现很多线程同时重建的情况。因为高并发导致的大量热点的 key 在重建还没完成的时候，不断被重建缓存的过程，由于大量线程都去做重建缓存工作，导致服务器拖慢的情况。
+
+### 解决方案
+
+#### 1.互斥锁
+
+第一次获取缓存的时候，加一个锁，然后查询数据库，接着是重建缓存。这个时候，另外一个请求又过来获取缓存，发现有个锁，这个时候就去等待，之后都是一次等待的过程，直到重建完成以后，锁解除后再次获取缓存命中。
+
+public String getKey(String key){
+    String value = redis.get(key);
+    if(value == null){
+        String mutexKey = "mutex:key:"+key; //设置互斥锁的key
+        if(redis.set(mutexKey,"1","ex 180","nx")){ //给这个key上一把锁，ex表示只有一个线程能执行，过期时间为180秒
+          value = db.get(key);
+          redis.set(key,value);
+          redis.delete(mutexKety);
+  }else{
+        // 其他的线程休息100毫秒后重试
+        Thread.sleep(100);
+        getKey(key);
+  }
+ }
+ return value;
+}
+
+互斥锁的优点是思路非常简单，具有一致性，但是互斥锁也有一定的问题，就是大量线程在等待的问题。存在死锁的可能性。
+
+## 4.缓存雪崩问题
+
+缓存雪崩是指机器宕机或在我们设置缓存时采用了相同的过期时间，导致缓存在某一时刻同时失效，请求全部转发到DB，DB瞬时压力过重雪崩。
+
+1：在缓存失效后，通过加锁或者队列来控制读数据库写缓存的线程数量。比如对某个key只允许一个线程查询数据和写缓存，其他线程等待。
+
+2：做二级缓存，A1为原始缓存，A2为拷贝缓存，A1失效时，可以访问A2，A1缓存失效时间设置为短期，A2设置为长期
+
+3：不同的key，设置不同的过期时间，让缓存失效的时间点尽量均匀。
+
+4：如果缓存数据库是分布式部署，将热点数据均匀分布在不同搞得缓存数据库中。
