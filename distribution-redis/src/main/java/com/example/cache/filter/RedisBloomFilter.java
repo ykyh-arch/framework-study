@@ -75,6 +75,7 @@ public class RedisBloomFilter {
      * 判断key是否存在于集合
      */
     public boolean isExist(String key) {
+        //二进制向量中的位置
         long[] indexs = getIndexs(key);
         List list = redisTemplate.executePipelined(new RedisCallback<Object>() {
 

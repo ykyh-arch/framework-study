@@ -11,15 +11,15 @@ import javax.sql.DataSource;
 
 @Configuration
 public class DataSourceConfig {
-//    @ConfigurationProperties(prefix = "spring.datasource")
+//  @ConfigurationProperties(prefix = "spring.datasource")
     @Bean
     public DataSource dataSource(){
         DruidDataSource dataSource = new DruidDataSource();
-//        dataSource.setDriverClassName();
-//        dataSource.setPassword();
-//        dataSource.setUsername();
-//        dataSource.setUrl();
-//        dataSource.setMaxActive();
+        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+        dataSource.setPassword("uetec123");
+        dataSource.setUsername("root");
+        dataSource.setUrl("jdbc:mysql://192.168.1.43:3306/eladmin");
+        dataSource.setMaxActive(2000);
         dataSource.setMaxWait(20000);
         return dataSource;
     }

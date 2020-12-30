@@ -1,0 +1,23 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.example.cache.filter.RedisBloomFilter",
+      "name": "bloom.filter",
+      "type": "com.example.cache.filter.RedisBloomFilter"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.example.cache.filter.RedisBloomFilter",
+      "defaultValue": 0,
+      "name": "bloom.filter.expected-insertions",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "com.example.cache.filter.RedisBloomFilter",
+      "name": "bloom.filter.fpp",
+      "type": "java.lang.Double"
+    }
+  ]
+}

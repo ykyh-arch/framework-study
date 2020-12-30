@@ -11,7 +11,13 @@ import org.springframework.stereotype.Component;
 import redis.clients.jedis.JedisCommands;
 
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Redis 实现分布式锁，NX + EX 模式
+ * 单机版的
+ * 集群版的用Redisson框架处理
+ */
 @Component
 public class RedisLock implements Lock{
 
@@ -23,6 +29,7 @@ public class RedisLock implements Lock{
 
     public static final String UNLOCK_LUA;
 
+    //LUA脚本
     static {
         StringBuilder sb = new StringBuilder();
         sb.append("if redis.call(\"get\",KEYS[1]) == ARGV[1] ");
@@ -34,10 +41,16 @@ public class RedisLock implements Lock{
         UNLOCK_LUA = sb.toString();
     }
 
-    //ThreadLocal用于保存某个线程共享变量：对于同一个static ThreadLocal，不同线程只能从中get，set，remove自己的变量，而不会影响其他线程的变量
+    //ThreadLocal用于保存某个线程共享变量：对于同一个static ThreadLocal，不同线程只能从中get，set，remove自己的变量，而不会影响其他线程的变量。
     private static ThreadLocal<String> threadLocal=new ThreadLocal<>();
 
+    public static AtomicBoolean isHappened = new AtomicBoolean(true);
 
+
+    /**
+     * 加锁，迭代递归加锁
+     * @param key
+     */
     @Override
     public void lock(String key) {
         boolean b = tryLock(key);
@@ -52,8 +65,6 @@ public class RedisLock implements Lock{
         lock(key);
     }
 
-
-
     @Override
     public boolean tryLock(String key) {
         String uuid = UUID.randomUUID().toString();
@@ -64,6 +75,32 @@ public class RedisLock implements Lock{
         Object execute = redisTemplate.execute(callback);
         if(execute!=null){
             threadLocal.set(uuid);
+            if(isHappened.get()){
+                //开启一个守护线程执行Key的自动延期
+                ThreadUtil.newThread(new Runnable() {
+                    RedisCallback<String> callback = (connection) -> {
+                        JedisCommands commands = (JedisCommands) connection.getNativeConnection();
+                        Long ttl = commands.ttl(KEYPREFIX+key);
+                        if(ttl !=null && ttl >0){
+                            //锁延期
+                            return String.valueOf(commands.expire(KEYPREFIX+key,(int)(ttl +1)));
+                        }
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    };
+                    @Override
+                    public void run() {
+                        while (true){
+                            redisTemplate.execute(callback);
+                        }
+                    }
+                }).start();
+                isHappened.set(false);
+            }
             return true;
         }
         return false;

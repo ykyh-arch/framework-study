@@ -19,6 +19,11 @@ public class OrderController {
     }
 
 
+    /**
+     * @param id
+     * @return
+     * 测试：http://192.168.1.175:8080//selectById?id=3 结果：{"code":600,"data":null,"msg":"查询无果"}
+     */
     @GetMapping("/selectById")
     public CommonResult selectOrderById(Integer id){
         return orderService.selectOrderById(id);

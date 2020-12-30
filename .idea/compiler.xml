@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="concurrent" />
+        <module name="distribution-dubbo" />
         <module name="receiver" />
         <module name="sender" />
         <module name="distribution-redis" />

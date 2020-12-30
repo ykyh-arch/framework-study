@@ -6,7 +6,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.boot.autoconfigure.ConfigurationCustomizer;
 import org.springframework.context.annotation.Bean;
 
-@MapperScan("com.luban.testcache.mapper")
+@MapperScan("com.example.cache.mapper")
 @org.springframework.context.annotation.Configuration
 public class MybiatisConfig {
 
