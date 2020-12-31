@@ -9,11 +9,11 @@
       <list>
         <option value="$PROJECT_DIR$/concurrent/pom.xml" />
         <option value="$PROJECT_DIR$/source/pom.xml" />
-        <option value="$PROJECT_DIR$/distribution/pom.xml" />
         <option value="$PROJECT_DIR$/source-selfspring/pom.xml" />
         <option value="$PROJECT_DIR$/distribution-rabbitmq/pom.xml" />
         <option value="$PROJECT_DIR$/distribution-redis/pom.xml" />
-        <option value="$PROJECT_DIR$/distribution-dubbo/pom.xml" />
+        <option value="$PROJECT_DIR$/distribution-dubbo-admin/pom.xml" />
+        <option value="$PROJECT_DIR$/distribution/pom.xml" />
       </list>
     </option>
   </component>

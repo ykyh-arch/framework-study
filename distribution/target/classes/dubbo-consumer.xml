@@ -3,12 +3,10 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
-
-    <dubbo:application name="provider"/>
-
-    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
-    <!-- <dubbo:protocol name="dubbo" port="20890"/>-->
-
-    <bean id="indexService" class="example.provider.IndexServiceImpl"/>
-    <dubbo:service interface="example.api.IndexService" ref="indexService"/>
+    <dubbo:application name="consumer" logger="log4j"/>
+    <dubbo:registry address="zookeeper://192.168.1.49:2181" />
+    <!--<dubbo:monitor protocol="7070"/>-->
+    <!--http://dubbo.apache.org/zh/docs/v2.7/user/examples/loadbalance/-->
+    <!--服务调用-->
+    <dubbo:reference id="indexService" interface="example.dubbo.api.IndexService" loadbalance="roundrobin"/>
 </beans>

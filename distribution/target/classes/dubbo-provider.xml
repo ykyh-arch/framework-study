@@ -1,0 +1,28 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+    <!--http://dubbo.apache.org/zh/docs/v2.7/user/examples/loadbalance/-->
+
+    <dubbo:application name="provider" logger="log4j"/>
+
+    <dubbo:registry address="zookeeper://192.168.1.49:2181"/>
+    <dubbo:protocol name="dubbo" port="20880"/>
+    <dubbo:protocol name="rmi" port="20881"/>
+    <!--<dubbo:protocol name="dubbo" port="20882"/>-->
+    <!--<dubbo:protocol name="http" server="tomcat" port="8081"/>-->
+    <!--<dubbo:monitor protocol="7070"/>-->
+
+    <bean id="indexService" class="example.dubbo.provider.IndexServiceImpl" />
+
+    <!--服务暴露
+    参数配置-管理控制台动态配置会覆盖这里的代码级别的配置
+    loadbalance：负载均衡
+    retries：重试次数
+    cluster：集群容错模式
+    protocol：协议
+    -->
+    <dubbo:service interface="example.dubbo.api.IndexService" ref="indexService" loadbalance="roundrobin"
+                   retries="2" cluster="failsafe" protocol="dubbo,rmi"/>
+</beans>
