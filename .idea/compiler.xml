@@ -16,23 +16,11 @@
         <module name="dubbo-admin-server" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="distribution-dubbo" target="1.5" />
-      <module name="dubbo-admin" target="1.8" />
-      <module name="dubbo-monitor-simple" target="1.6" />
-      <module name="dubbo-registry-simple" target="1.6" />
-      <module name="spring.spring-aspects" target="1.8" />
-      <module name="spring.spring-aspects.jmh" target="1.8" />
-      <module name="spring.spring-aspects.main" target="1.8" />
-      <module name="spring.spring-aspects.test" target="1.8" />
-      <module name="spring.spring-aspects.testFixtures" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="distribution-rabbitmq" options="-parameters" />
       <module name="distribution-redis" options="-parameters" />
-      <module name="dubbo-admin" options="-parameters" />
       <module name="receiver" options="-parameters" />
       <module name="sender" options="-parameters" />
     </option>

@@ -1,9 +1,10 @@
 package example.dubbo.consumer;
 
 import example.dubbo.api.IndexService;
+import org.apache.dubbo.rpc.Constants;
+import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,6 +23,8 @@ public class Consumer {
         IndexService indexService = (IndexService) classPathXmlApplicationContext.getBean("indexService");
         for (int i = 0; i < 100; i++) {
             try {
+                //标签路由
+                //RpcContext.getContext().setAttachment(Constants.FORCE_USE_TAG,"tag1");
                 System.out.println(indexService.index("hello"));
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {

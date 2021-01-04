@@ -4,7 +4,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
     <dubbo:application name="consumer" logger="log4j"/>
-    <dubbo:registry address="zookeeper://192.168.1.49:2181" />
+    <!--<dubbo:registry address="zookeeper://192.168.1.49:2181" />-->
+    <dubbo:config-center address="zookeeper://192.168.1.49:2181" />
     <!--<dubbo:monitor protocol="7070"/>-->
     <!--http://dubbo.apache.org/zh/docs/v2.7/user/examples/loadbalance/-->
     <!--服务调用-->
