@@ -14,6 +14,8 @@
         <option value="$PROJECT_DIR$/distribution-redis/pom.xml" />
         <option value="$PROJECT_DIR$/distribution-dubbo-admin/pom.xml" />
         <option value="$PROJECT_DIR$/distribution/pom.xml" />
+        <option value="$PROJECT_DIR$/distribution-dubbo/pom.xml" />
+        <option value="$PROJECT_DIR$/distribution-dubbo/source/pom.xml" />
       </list>
     </option>
   </component>

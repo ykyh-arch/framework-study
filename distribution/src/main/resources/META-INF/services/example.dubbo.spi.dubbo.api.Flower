@@ -1,0 +1,3 @@
+Rose=example.dubbo.spi.dubbo.impl.RoseFlower
+Peony=example.dubbo.spi.dubbo.impl.PeonyFlower
+Injection=example.dubbo.spi.dubbo.injection.FlowerInjection

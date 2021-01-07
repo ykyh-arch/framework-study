@@ -1,0 +1,4 @@
+Black=example.dubbo.spi.dubbo.impl.BlackCar
+Red=example.dubbo.spi.dubbo.impl.RedCar
+example.dubbo.spi.dubbo.wrapper.Car1Wrapper
+example.dubbo.spi.dubbo.wrapper.Car2Wrapper
