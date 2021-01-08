@@ -15,8 +15,8 @@
         <module name="dubbo-admin-distribution" />
         <module name="dubbo-admin-ui" />
         <module name="distribution-redis" />
-        <module name="dubbo-admin-server" />
         <module name="dubbo-build-tools" />
+        <module name="dubbo-admin-server" />
       </profile>
     </annotationProcessing>
   </component>

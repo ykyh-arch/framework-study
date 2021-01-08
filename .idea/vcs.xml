@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/distribution-dubbo-admin" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/distribution-dubbo/source" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/source-springframework" vcs="Git" />
   </component>
 </project>
