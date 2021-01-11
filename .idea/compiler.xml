@@ -12,6 +12,7 @@
         <module name="sender" />
         <module name="concurrent" />
         <module name="distribution-dubbo" />
+        <module name="source-log" />
         <module name="dubbo-admin-distribution" />
         <module name="dubbo-admin-ui" />
         <module name="distribution-redis" />
