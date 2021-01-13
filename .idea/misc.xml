@@ -17,6 +17,7 @@
         <option value="$PROJECT_DIR$/distribution-dubbo/pom.xml" />
         <option value="$PROJECT_DIR$/distribution-dubbo/source/pom.xml" />
         <option value="$PROJECT_DIR$/source-log/pom.xml" />
+        <option value="$PROJECT_DIR$/source-mybatis/pom.xml" />
       </list>
     </option>
   </component>

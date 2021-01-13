@@ -11,6 +11,7 @@
         <module name="receiver" />
         <module name="sender" />
         <module name="concurrent" />
+        <module name="source-mybatis" />
         <module name="distribution-dubbo" />
         <module name="source-log" />
         <module name="dubbo-admin-distribution" />
