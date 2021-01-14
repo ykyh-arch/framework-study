@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Mapper
 //开启MyBatis二级缓存
-@CacheNamespace
+//@CacheNamespace
 public interface IndexMapper {
 
     @Select("select * from sys_flower_news where title like '%${title}%'")

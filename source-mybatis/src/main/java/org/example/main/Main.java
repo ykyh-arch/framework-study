@@ -1,8 +1,16 @@
 package org.example.main;
 
+import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.example.conf.ApplicationConfig;
+import org.example.dao.IndexMapper;
 import org.example.service.IndexService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @ClassName: Main
@@ -23,7 +31,23 @@ public class Main {
         AnnotationConfigApplicationContext applicationContext =
                 new AnnotationConfigApplicationContext(ApplicationConfig.class);
         applicationContext.start();
+        //一级缓存失效，打印2遍
         System.out.println(applicationContext.getBean(IndexService.class).select("花"));
+        System.out.println(applicationContext.getBean(IndexService.class).select("花"));
+
+        //mybatis + log4j 有日志记录
+//        String resource = "mybatis-config.xml";
+//        InputStream inputStream = null;
+//        try {
+//            inputStream = Resources.getResourceAsStream(resource);
+//            SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+//            sqlSessionFactory.getConfiguration().addMapper(IndexMapper.class);
+//            SqlSession sqlSession = sqlSessionFactory.openSession();
+//            System.out.println(sqlSession.getMapper(IndexMapper.class).select("花"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
     }
 
 }

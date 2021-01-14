@@ -30,7 +30,8 @@ public class ApplicationConfig {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
 
-        //日志打印，从日志工厂获取自定义日志，底层通过反射得到传入的日志实现类的构造器再new出具体的日志对象；
+        //日志打印，默认：spring 5.x +  mybatis + log4j 是没有日志输出的；
+        //从日志工厂获取自定义日志，底层通过反射得到传入的日志实现类的构造器再new出具体的日志对象；
         //使用时通过LogFory.getLog（）获取日志；
         //默认：尝试获取，从工厂获取；
         org.apache.ibatis.session.Configuration configuration =
