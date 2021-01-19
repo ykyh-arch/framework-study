@@ -27,6 +27,14 @@ import java.io.InputStream;
 public class Main {
 
     public static void main(String[] args) {
+        /*
+         * 一级缓存：
+         * mybatis：defaultSqlSession -> （接口）sqlSession.selectList(command.getName(), param) ->
+         * （实现类）defaultSqlSession.selectList（）得到sql
+         * mybatis + spring：SqlSessionTemplation -> （接口）sqlSession.selectList(command.getName(), param) ->
+         * （实现类）SqlSessionTemplation.selectList（）-> this.sqlSessionProxy.<E> selectList(statement, parameter) ->
+         *  method.invoke(sqlSession, args) -> closeSqlSession(sqlSession, SqlSessionTemplate.this.sqlSessionFactory);
+         */
         //org.apache.ibatis.logging.LogFactory.useLog4JLogging();
         AnnotationConfigApplicationContext applicationContext =
                 new AnnotationConfigApplicationContext(ApplicationConfig.class);
