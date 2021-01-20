@@ -1,12 +1,14 @@
 package org.example.conf;
 
 import org.apache.ibatis.logging.log4j.Log4jImpl;
+import org.example.registrar.SelfBeanDefinitionRegistrar;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
@@ -22,6 +24,7 @@ import javax.sql.DataSource;
 @Configuration
 @MapperScan("org.example.dao")
 @ComponentScan("org.example")
+@Import(SelfBeanDefinitionRegistrar.class)
 public class ApplicationConfig {
 
     @Bean

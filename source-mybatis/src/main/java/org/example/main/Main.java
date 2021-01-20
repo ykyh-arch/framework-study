@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.example.conf.ApplicationConfig;
 import org.example.dao.IndexMapper;
 import org.example.service.IndexService;
+import org.example.service.UserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
@@ -42,6 +43,8 @@ public class Main {
         //一级缓存失效，打印2遍
         System.out.println(applicationContext.getBean(IndexService.class).select("花"));
         System.out.println(applicationContext.getBean(IndexService.class).select("花"));
+
+//        System.out.println(applicationContext.getBean(UserService.class).getOrderService());
 
         //mybatis + log4j 有日志记录
 //        String resource = "mybatis-config.xml";

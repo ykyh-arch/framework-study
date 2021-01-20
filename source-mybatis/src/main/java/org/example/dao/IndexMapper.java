@@ -11,6 +11,7 @@ import java.util.Map;
 @Mapper
 //开启MyBatis二级缓存
 //@CacheNamespace
+//MapperStatement 封裝了所有Mapper信息
 public interface IndexMapper {
 
     @Select("select * from sys_flower_news where title like '%${title}%'")
