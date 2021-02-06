@@ -10,6 +10,7 @@
         <module name="dubbo-admin-test" />
         <module name="receiver" />
         <module name="sender" />
+        <module name="optimization" />
         <module name="concurrent" />
         <module name="source-mybatis" />
         <module name="distribution-dubbo" />
