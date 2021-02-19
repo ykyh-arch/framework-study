@@ -51,6 +51,7 @@
       <module name="dubbo-serialization-gson" target="1.8" />
       <module name="dubbo-serialization-native-hession" target="1.8" />
       <module name="dubbo-serialization-protobuf" target="1.8" />
+      <module name="optimization" target="1.5" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
